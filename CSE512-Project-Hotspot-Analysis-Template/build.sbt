@@ -15,11 +15,13 @@ lazy val root = (project in file(".")).
 
     mainClass := Some("cse512.Entrance")
   )
-
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "2.2.0" % "provided",
   "org.apache.spark" %% "spark-sql" % "2.2.0" % "provided",
-  "org.scalatest" %% "scalatest" % "2.2.4" % "test",
+  "org.scalatest" %% "scalatest" % "2.2.6" % "test",
   "org.specs2" %% "specs2-core" % "2.4.16" % "test",
-  "org.specs2" %% "specs2-junit" % "2.4.16" % "test"
+  "org.specs2" %% "specs2-junit" % "2.4.16" % "test",
+  "org.apache.commons" % "commons-math3" % "3.0",
+  "org.scalactic" %% "scalactic" % "2.2.6",
+  "it.unimi.dsi" % "fastutil" % "7.0.12"
 )

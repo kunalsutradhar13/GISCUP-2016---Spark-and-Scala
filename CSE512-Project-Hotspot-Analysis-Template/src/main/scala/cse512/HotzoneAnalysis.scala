@@ -27,11 +27,17 @@ object HotzoneAnalysis {
     // Join two datasets
     spark.udf.register("ST_Contains",(queryRectangle:String, pointString:String)=>(HotzoneUtils.ST_Contains(queryRectangle, pointString)))
     val joinDf = spark.sql("select rectangle._c0 as rectangle, point._c5 as point from rectangle,point where ST_Contains(rectangle._c0,point._c5)")
-    joinDf.createOrReplaceTempView("joinResult")
+    //joinDf.createOrReplaceTempView("joinResult")
+    joinDf.registerTempTable("resultTable")
+    
+    //println(joinDf.count)
 
-    // YOU NEED TO CHANGE THIS PART
-
-    return joinDf // YOU NEED TO CHANGE THIS PART
+    val result = spark.sql("SELECT rectangle as rectangle, COUNT(*) AS count FROM resultTable GROUP BY rectangle order by rectangle asc").persist()
+    val dataDF = result.toDF()                         // convert RDD to DataFrame
+    //dataDF.show()    
+    //println(result.count)
+    
+    return dataDF.coalesce(1) // YOU NEED TO CHANGE THIS PART
   }
 
 }
